@@ -1,5 +1,4 @@
 import React from "react";
-import { SettingOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
 import { DashboardIcon } from "../../icons";
@@ -14,21 +13,15 @@ const items: MenuItem[] = [
     icon: <DashboardIcon />,
   },
   {
-    key: "sub4",
-    label: "Pages",
-    icon: <SettingOutlined />,
-    children: [
-      { key: "9", label: <Link to="/banner">Banner</Link> },
-      { key: "11", label: <Link to="/service">Doctors</Link> },
-      { key: "12", label: "Услуги" },
-      { key: "13", label: "Врачи" },
-    ],
-  },
-  {
     key: "3",
     label: <Link to="/categories">Category</Link>,
     icon:<DashboardIcon/>,
-  }
+  },
+  {
+    key: "4",
+    label: <Link to="/partners">Partners</Link>,
+    icon: <DashboardIcon />,
+  },
 ];
 
 const Sidebar: React.FC = () => {
@@ -39,7 +32,7 @@ const Sidebar: React.FC = () => {
   return (
     <Menu
       onClick={onClick}
-      className="w-64 flex flex-col gap-2 h-full"
+      className="w-64 flex flex-col gap-2 h-full "
       mode="inline"
       items={items}
     />

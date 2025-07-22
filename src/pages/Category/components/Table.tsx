@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Table } from "antd";
-import type { CategoryType } from "../../types";
-import { useCategory } from "./useCategory";
+import type { CategoryType } from "../../../types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getCategories } from "../../../api";
+import { deleteCategory } from "../api";
 
 const CategoryTable = ({
   onEdit,
@@ -9,9 +11,22 @@ const CategoryTable = ({
 }: {
   onEdit: (item: CategoryType) => void;
   onOpenModal: () => void;
-}) => {
-  const { data, isLoading, handleDelete } = useCategory();
+  }) => {
+  const queryClient = useQueryClient();
+    const { data, isLoading } = useQuery({
+      queryKey: ["categories"],
+      queryFn: getCategories,
+    });
+  const deleteMutation = useMutation({
+    mutationFn: deleteCategory,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+    },
+  });
 
+  const handleDelete = (id: number) => {
+    deleteMutation.mutate(id);
+  };
   const columns = [
     {
       title: "Name (UZ)",

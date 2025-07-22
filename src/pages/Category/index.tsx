@@ -1,19 +1,17 @@
 import { useState } from "react";
 import { AppButton } from "../../components/ui/AppButton";
 import type { CategoryType } from "../../types";
-import CategoryTable from "./Table";
-import ModalForm from "./ModalForm";
+import CategoryTable from "./components/Table";
+import ModalForm from "./components/ModalForm";
 
-
-
-const BannerPage = () => {
+const CategoryPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState<CategoryType | null>(null);
 
   return (
     <div>
       <div className="flex justify-between mb-4">
-        <p className="text-3xl">Banner</p>
+        <p className="text-3xl">Category</p>
         <AppButton
           onClick={() => {
             setSelectedItem(null);
@@ -41,4 +39,4 @@ const BannerPage = () => {
   );
 };
 
-export default BannerPage;
+export default CategoryPage;

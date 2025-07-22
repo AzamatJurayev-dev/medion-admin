@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { loginUser } from "../../api/post";
+import { loginUser } from "./api";
 
 const LoginPage = () => {
   const [identifier, setIdentifier] = useState("");

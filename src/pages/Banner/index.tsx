@@ -24,14 +24,16 @@ const Banner = () => {
         onEdit={setSelectedItem}
         onOpenModal={() => setOpenModal(true)}
       />
-      <BannerModal
-        open={openModal}
-        onClose={() => {
-          setOpenModal(false);
-          setSelectedItem(null);
-        }}
-        selectedItem={selectedItem}
-      />
+      {openModal && (
+        <BannerModal
+          open={openModal}
+          onClose={() => {
+            setOpenModal(false);
+            setSelectedItem(null);
+          }}
+          selectedItem={selectedItem}
+        />
+      )}
     </div>
   );
 };

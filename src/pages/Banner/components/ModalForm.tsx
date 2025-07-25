@@ -22,6 +22,10 @@ const BannerModal = ({
 }) => {
   const { register, handleSubmit, reset, control } = useForm({
     resolver: zodResolver(bannerSchema),
+    defaultValues: {
+      title: { uz: "", en: "", ru: "" },
+      description: { uz: "", en: "", ru: "" },
+    },
   });
   const queryClient = useQueryClient();
   const createBanner = useMutation({
@@ -50,12 +54,16 @@ const BannerModal = ({
     formData.append(
       "data",
       JSON.stringify({
-        titleUz: data.titleUz,
-        titleEn: data.titleEn,
-        titleRu: data.titleRu,
-        descriptionUz: data.descriptionUz,
-        descriptionEn: data.descriptionEn,
-        descriptionRu: data.descriptionRu,
+        title: {
+          uz: data.title.uz,
+          en: data.title.en,
+          ru: data.title.ru,
+        },
+        description: {
+          uz: data.description.uz,
+          en: data.description.en,
+          ru: data.description.ru,
+        },
       })
     );
     if (selectedItem) {
@@ -64,20 +72,25 @@ const BannerModal = ({
       createBanner.mutate(formData);
     }
   };
-  useEffect(() => {
-    if (selectedItem) {
-      reset({
-        titleUz: selectedItem.titleUz,
-        titleEn: selectedItem.titleEn,
-        titleRu: selectedItem.titleRu,
-        descriptionUz: selectedItem.descriptionUz,
-        descriptionEn: selectedItem.descriptionEn,
-        descriptionRu: selectedItem.descriptionRu,
-     })
-    } else {
-      reset();
-    }
-  }, [selectedItem, reset]);
+useEffect(() => {
+  if (selectedItem) {
+    reset({
+      title: {
+        uz: selectedItem.title.uz,
+        en: selectedItem.title.en,
+        ru: selectedItem.title.ru,
+      },
+      description: {
+        uz: selectedItem.description.uz,
+        en: selectedItem.description.en,
+        ru: selectedItem.description.ru,
+      },
+    });
+  } else {
+    reset();
+  }
+}, [selectedItem, reset]);
+
 
   return (
     <Modal
@@ -95,9 +108,8 @@ const BannerModal = ({
               <div>
                 <label htmlFor="">Title</label>
                 <input
-                  type="text"
                   placeholder="Title Uz"
-                  {...register("titleUz")}
+                  {...register("title.uz")}
                   className="w-full mb-2 p-2 border rounded"
                 />
               </div>
@@ -106,7 +118,7 @@ const BannerModal = ({
                 <input
                   type="text"
                   placeholder="Title En"
-                  {...register("titleEn")}
+                  {...register("title.en")}
                   className="w-full mb-2 p-2 border rounded"
                 />
               </div>
@@ -115,7 +127,7 @@ const BannerModal = ({
                 <input
                   type="text"
                   placeholder="Title Ru"
-                  {...register("titleRu")}
+                  {...register("title.ru")}
                   className="w-full mb-2 p-2 border rounded"
                 />
               </div>
@@ -131,7 +143,7 @@ const BannerModal = ({
 
             <div className="flex gap-4">
               <Controller
-                name="descriptionUz"
+                name="description.uz"
                 control={control}
                 render={({ field }) => (
                   <ReactQuillEditor
@@ -144,7 +156,7 @@ const BannerModal = ({
               />
 
               <Controller
-                name="descriptionEn"
+                name="description.en"
                 control={control}
                 render={({ field }) => (
                   <ReactQuillEditor
@@ -157,7 +169,7 @@ const BannerModal = ({
               />
 
               <Controller
-                name="descriptionRu"
+                name="description.ru"
                 control={control}
                 render={({ field }) => (
                   <ReactQuillEditor

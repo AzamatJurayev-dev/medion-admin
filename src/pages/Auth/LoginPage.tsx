@@ -13,13 +13,13 @@ const LoginPage = () => {
 
   const mutation = useMutation({
     mutationFn: loginUser,
-    onSuccess: (data) => {
+    onSuccess: (data:any) => {
       localStorage.setItem("token", data.jwt);
       navigate("/");
     },
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data:any) => {
     mutation.mutate({ identifier: data.username, password: data.password });
   };
 

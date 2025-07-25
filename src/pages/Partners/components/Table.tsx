@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deletePartners, getPartners } from "../api";
 import type { ColumnsType } from "antd/es/table";
 import type { UpdatePartnerForm } from "../types/schema";
+import { useTranslation } from "react-i18next";
 
 const PartnerTable = ({
   onEdit,
@@ -14,6 +15,8 @@ const PartnerTable = ({
   onEdit: (item: UpdatePartnerForm) => void;
   onOpenModal: () => void;
 }) => {
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language as "uz" | "en" | "ru";
   const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({
     queryKey: ["partners"],
@@ -42,32 +45,30 @@ const PartnerTable = ({
   const TextareaStyle = "text-sm overflow-ellipsis line-clamp-2";
   const columns: ColumnsType<PartnerAttributes> = [
     {
-      title: "Title",
+      title: t("Title"),
       dataIndex: "title",
     },
     {
-      title: "Subdescription (UZ)",
-      dataIndex: "subdescUz",
+      title: t("Sub description"),
+      dataIndex:
+        lang === "uz" ? "subdescUz" : lang === "en" ? "subdescEn" : "subdescRu",
     },
     {
-      title: "Subdescription (EN)",
-      dataIndex: "subdescEn",
-    },
-    {
-      title: "Subdescription (RU)",
-      dataIndex: "subdescRu",
-    },
-    {
-      title: "Phone Number",
+      title: t("Phone Number"),
       dataIndex: "phoneNumber",
     },
     {
-      title: "Link",
+      title: t("Link"),
       dataIndex: "link",
     },
     {
-      title: "Description (UZ)",
-      dataIndex: "descriptionUz",
+      title: t("Description"),
+      dataIndex:
+        lang === "uz"
+          ? "descriptionUz"
+          : lang === "en"
+          ? "descriptionEn"
+          : "descriptionRu",
       render: (value: string) => (
         <p
           dangerouslySetInnerHTML={{ __html: value }}
@@ -76,27 +77,7 @@ const PartnerTable = ({
       ),
     },
     {
-      title: "Description (EN)",
-      dataIndex: "descriptionEn",
-      render: (value: string) => (
-        <p
-          dangerouslySetInnerHTML={{ __html: value }}
-          className={TextareaStyle}
-        />
-      ),
-    },
-    {
-      title: "Description (RU)",
-      dataIndex: "descriptionRu",
-      render: (value: string) => (
-        <p
-          dangerouslySetInnerHTML={{ __html: value }}
-          className={TextareaStyle}
-        />
-      ),
-    },
-    {
-      title: "Cover Image",
+      title: t("Image"),
       dataIndex: "coverImage",
       render: (_: any, record) => (
         <div className="size-12 justify-center items-center flex rounded-full border border-gray-200 overflow-hidden">
@@ -109,16 +90,18 @@ const PartnerTable = ({
       ),
     },
     {
-      title: "Actions",
+      title: t("Actions"),
       fixed: "right",
       width: 150,
       render: (_: any, record: any) => (
         <div className="flex gap-2">
-          <button className="bg-blue-500 text-white px-2 py-1 rounded"
+          <button
+            className="bg-blue-500 text-white px-2 py-1 rounded"
             onClick={() => {
               onEdit(record);
               onOpenModal();
-            } }>
+            }}
+          >
             Edit
           </button>
           <button

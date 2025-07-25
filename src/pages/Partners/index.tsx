@@ -22,15 +22,20 @@ const Partner = () => {
           + Create new banner
         </AppButton>
       </div>
-      <PartnerTable onEdit={setSelectedItem} onOpenModal={() => setOpen(true)} />
-      <PartnerModal
-        open={open}
-        onClose={() => {
-          setOpen(false);
-          setSelectedItem(null);
-        }}
-        selectedItem={selectedItem}
+      <PartnerTable
+        onEdit={setSelectedItem}
+        onOpenModal={() => setOpen(true)}
       />
+      {open && (
+        <PartnerModal
+          open={open}
+          onClose={() => {
+            setOpen(false);
+            setSelectedItem(null);
+          }}
+          selectedItem={selectedItem}
+        />
+      )}
     </div>
   );
 };

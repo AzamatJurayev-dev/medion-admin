@@ -1,13 +1,18 @@
 import { z } from "zod";
 
 export const bannerSchema = z.object({
-  titleUz: z.string().min(1, "nameUz majburiy"),
-  titleEn: z.string().min(1, "nameEn majburiy"),
-  titleRu: z.string().min(1, "nameRu majburiy"),
+  title: z.object({
+    uz: z.string().min(1, "Title Uz majburiy"),
+    en: z.string().min(1, "Title En majburiy"),
+    ru: z.string().min(1, "Title Ru majburiy"),
+  }),
+  description: z.object({
+    uz: z.string().min(1, "Description Uz majburiy"),
+    en: z.string().min(1, "Description En majburiy"),
+    ru: z.string().min(1, "Description Ru majburiy"),
+  }),
   coverImage: z.any().optional(),
-  descriptionUz: z.string().min(1, "descriptionUz majburiy"),
-  descriptionEn: z.string().min(1, "descriptionEn majburiy"),
-  descriptionRu: z.string().min(1, "descriptionRu majburiy"),
 });
+
 export type BannerFormType = z.infer<typeof bannerSchema>;
 export type UpdateBannerForm = { id: number } & BannerFormType;

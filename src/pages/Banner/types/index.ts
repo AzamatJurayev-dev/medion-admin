@@ -3,12 +3,16 @@ export interface BannerItem {
   attributes:BannerAttributs
 }
 export interface BannerAttributs {
-  titleUz: string;
-  titleEn: string;
-  titleRu: string;
-  descriptionUz: string;
-  descriptionEn: string;
-  descriptionRu: string;
+  title: {
+    uz: string;
+    en: string;
+    ru: string;
+  },
+  description: {
+    uz: string;
+    en: string;
+    ru: string;
+  },
   coverImage: {
     data: {
       attributes: {

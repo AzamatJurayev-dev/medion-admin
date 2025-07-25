@@ -23,7 +23,6 @@ const PartnerModal = ({
     handleSubmit,
     reset,
     control,
-    // setValue,
   } = useForm<PartnerFormType>({
     resolver: zodResolver(partnerSchema),
   });

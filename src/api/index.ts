@@ -1,7 +1,11 @@
-import type { CategoryResponse } from "../types";
+import type { DepartmentResponse } from "../pages/Department/types";
 import request from "../utils/httpRequest";
 
-export const getCategories = async (): Promise<CategoryResponse> => {
-  const response = await request.get<CategoryResponse>(`/categories`);
+export const getDepartments = async (): Promise<DepartmentResponse> => {
+  const response = await request.get<DepartmentResponse>("/departments", {
+    params: {
+      populate: "*",
+    },
+  });
   return response.data;
 };

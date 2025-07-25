@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.custom-scroll{
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+}

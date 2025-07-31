@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getToken } from "./cookie";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -7,7 +8,7 @@ const request = axios.create({
 });
 
 request.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+  const token = getToken();
   if (token) {
     config.headers = config.headers || {};
     config.headers.Authorization = `Bearer ${token}`;

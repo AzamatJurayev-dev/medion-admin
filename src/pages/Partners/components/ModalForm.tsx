@@ -1,7 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert, Button, Modal, Steps } from "antd";
 import { Controller, useForm } from "react-hook-form";
-import { partnerSchema, type PartnerFormType, type UpdatePartnerForm } from "../types/schema";
+import {
+  partnerSchema,
+  type PartnerFormType,
+  type UpdatePartnerForm,
+} from "../types/schema";
 import { useEffect, useState } from "react";
 import ReactQuillEditor from "../../../components/ui/AppRichTextarea";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -18,12 +22,7 @@ const PartnerModal = ({
 }) => {
   const [current, setCurrent] = useState(0);
   const queryClient = useQueryClient();
-  const {
-    register,
-    handleSubmit,
-    reset,
-    control,
-  } = useForm<PartnerFormType>({
+  const { register, handleSubmit, reset, control } = useForm<PartnerFormType>({
     resolver: zodResolver(partnerSchema),
   });
   const createPartner = useMutation({
@@ -58,12 +57,16 @@ const PartnerModal = ({
       "data",
       JSON.stringify({
         title: data.title,
-        subdescUz: data.subdescUz,
-        subdescEn: data.subdescEn,
-        subdescRu: data.subdescRu,
-        descriptionUz: data.descriptionUz,
-        descriptionEn: data.descriptionEn,
-        descriptionRu: data.descriptionRu,
+        subDesc: {
+          uz: data.subDesc.uz,
+          ru: data.subDesc.ru,
+          en: data.subDesc.en,
+        },
+        description: {
+          uz: data.description.uz,
+          ru: data.description.ru,
+          en: data.description.en,
+        },
         phoneNumber: data.phoneNumber,
         link: data.link,
       })
@@ -78,12 +81,16 @@ const PartnerModal = ({
     if (selectedItem) {
       reset({
         title: selectedItem.title,
-        subdescUz: selectedItem.subdescUz,
-        subdescEn: selectedItem.subdescEn,
-        subdescRu: selectedItem.subdescRu,
-        descriptionUz: selectedItem.descriptionUz,
-        descriptionEn: selectedItem.descriptionEn,
-        descriptionRu: selectedItem.descriptionRu,
+        subDesc: {
+          uz: selectedItem.subDesc.uz,
+          ru: selectedItem.subDesc.ru,
+          en: selectedItem.subDesc.en,
+        },
+        description: {
+          uz: selectedItem.description.uz,
+          ru: selectedItem.description.ru,
+          en: selectedItem.description.en,
+        },
         phoneNumber: selectedItem.phoneNumber,
         link: selectedItem.link,
       });
@@ -91,8 +98,7 @@ const PartnerModal = ({
     } else {
       reset();
     }
-  }
-  , [selectedItem, reset]);
+  }, [selectedItem, reset]);
 
   const next = () => setCurrent((prev) => prev + 1);
   const prev = () => setCurrent((prev) => prev - 1);
@@ -154,7 +160,7 @@ const PartnerModal = ({
                 <div className={style}>
                   <label htmlFor="">Subdescription (UZ)</label>
                   <textarea
-                    {...register("subdescUz")}
+                    {...register("description.uz")}
                     placeholder="Subdescription UZ"
                     className="border px-4 py-2 rounded-lg"
                   />
@@ -162,7 +168,7 @@ const PartnerModal = ({
                 <div className={style}>
                   <label htmlFor="">Subdescription (EN)</label>
                   <textarea
-                    {...register("subdescEn")}
+                    {...register("description.en")}
                     placeholder="Subdescription EN"
                     className="border px-4 py-2 rounded-lg"
                   />
@@ -170,7 +176,7 @@ const PartnerModal = ({
                 <div className={style}>
                   <label htmlFor="">Subdescription (RU)</label>
                   <textarea
-                    {...register("subdescRu")}
+                    {...register("description.ru")}
                     placeholder="Subdescription RU"
                     className="border px-4 py-2 rounded-lg"
                   />
@@ -181,7 +187,7 @@ const PartnerModal = ({
           {current === 1 && (
             <div className="grid grid-cols-3 gap-4 mb-8">
               <Controller
-                name="descriptionUz"
+                name="subDesc.uz"
                 control={control}
                 render={({ field }) => (
                   <ReactQuillEditor
@@ -194,7 +200,7 @@ const PartnerModal = ({
               />
 
               <Controller
-                name="descriptionEn"
+                name="subDesc.en"
                 control={control}
                 render={({ field }) => (
                   <ReactQuillEditor
@@ -207,7 +213,7 @@ const PartnerModal = ({
               />
 
               <Controller
-                name="descriptionRu"
+                name="subDesc.ru"
                 control={control}
                 render={({ field }) => (
                   <ReactQuillEditor

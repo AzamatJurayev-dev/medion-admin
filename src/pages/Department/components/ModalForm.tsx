@@ -160,26 +160,26 @@ const ModalForm = ({
             </div>
             <div className="flex flex-col gap-4 justify-between">
               <div className={style}>
-                <label htmlFor="">SubDescription UZ</label>
+                <label htmlFor="">Description UZ</label>
                 <textarea
-                  {...register("subDesc.uz")}
-                  placeholder="SubDescription Uz"
+                  {...register("description.uz")}
+                  placeholder="Description Uz"
                   className="border px-4 py-2 rounded-lg w-full"
                 />
               </div>
               <div className={style}>
-                <label htmlFor="">SubDescription En</label>
+                <label htmlFor="">Description En</label>
                 <textarea
-                  {...register("subDesc.en")}
-                  placeholder="SubDescription En"
+                  {...register("description.en")}
+                  placeholder="Description En"
                   className="border px-4 py-2 rounded-lg w-full"
                 />
               </div>
               <div className={style}>
-                <label htmlFor="">SubDescription Ru</label>
+                <label htmlFor="">Description Ru</label>
                 <textarea
-                  {...register("subDesc.ru")}
-                  placeholder="SubDescription Ru"
+                  {...register("description.ru")}
+                  placeholder="Description Ru"
                   className="border px-4 py-2 rounded-lg w-full"
                 />
               </div>
@@ -189,11 +189,11 @@ const ModalForm = ({
         {current === 1 && (
           <div className="grid grid-cols-3 gap-4 h-[340px]">
             <Controller
-              name="description.uz"
+              name="subDesc.uz"
               control={control}
               render={({ field }) => (
                 <ReactQuillEditor
-                  label="Description Uz"
+                  label="Sub Description Uz"
                   value={field.value}
                   onChange={field.onChange}
                   placeholder="Matnni kiriting..."
@@ -202,11 +202,11 @@ const ModalForm = ({
             />
 
             <Controller
-              name="description.en"
+              name="subDesc.en"
               control={control}
               render={({ field }) => (
                 <ReactQuillEditor
-                  label="Description En"
+                  label="Sub Description En"
                   value={field.value}
                   onChange={field.onChange}
                   placeholder="Enter English description..."
@@ -215,11 +215,11 @@ const ModalForm = ({
             />
 
             <Controller
-              name="description.ru"
+              name="subDesc.ru"
               control={control}
               render={({ field }) => (
                 <ReactQuillEditor
-                  label="Description Ru"
+                  label="Sub Description Ru"
                   value={field.value}
                   onChange={field.onChange}
                   placeholder="Введите описание на русском"

@@ -28,6 +28,8 @@ export interface DoctorAttributes {
     en: string;
     ru: string;
   };
+  doctorType: boolean;
+  docEnum: string;
   workExperience: number;
   departments: {
     data?: {
@@ -86,6 +88,8 @@ export interface DoctorAttributes1 {
     en: string;
     ru: string;
   };
+  doctorType: boolean;
+  docEnum: string;
   workExperience: number;
   departments: {
     data?: {

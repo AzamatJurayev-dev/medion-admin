@@ -13,6 +13,20 @@ export const getDepartmentColums = (
   t: (key: string) => string
 ): ColumnsType<DepartmentAttributes> => [
   {
+    title: (
+      <span className="text-left font-sans text-sm font-normal leading-5 text-secondary-dark">
+        №
+      </span>
+    ),
+    key: "index",
+    render: (_, __, index) => (
+      <span className="font-sans text-sm font-normal leading-6 text-dark">
+        {index + 1}
+      </span>
+    ),
+    width: 48,
+  },
+  {
     title: t("Title"),
     dataIndex:
       lang === "uz" ? "titleUz" : lang === "en" ? "titleEn" : "titleRu",
@@ -20,14 +34,15 @@ export const getDepartmentColums = (
   {
     title: t("Sub Description"),
     dataIndex: "subDesc",
-    render: (_, record) => record.subDesc?.[lang],
+    render: (_, record) =>
+      (
+        <p className="text-sm overflow-ellipsis max-w-40 line-clamp-1" dangerouslySetInnerHTML={{ __html: record.subDesc?.[lang] }} />
+      ),
   },
   {
     title: t("Description"),
     dataIndex: "description",
-    render: (_, record) => (
-      <div dangerouslySetInnerHTML={{ __html: record.description?.[lang] }} />
-    ),
+    render: (_, record) => record.description?.[lang],
   },
   {
     title: "Icon",

@@ -1,17 +1,24 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { getToken } from "../utils/cookie";
+import { useEffect, useState } from "react";
 
-interface Props {
-  children: React.ReactNode;
-}
+const ProtectedRoute = () => {
+  const [token, setToken] = useState<string | undefined>(getToken());
 
-const ProtectedRoute: React.FC<Props> = ({ children }) => {
-  const token = localStorage.getItem("token");
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const currentToken = getToken();
+      setToken(currentToken);
+    }, 1000);
 
-  if (token) {
-    <Navigate to="/login" replace />;
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
   }
 
-  return <>{children}</>;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

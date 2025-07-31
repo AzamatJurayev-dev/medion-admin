@@ -3,23 +3,51 @@ export interface PartnerType{
     attributes: PartnerAttributes;
 }
 export interface PartnerAttributes {
-    title: string;
-    subdescUz: string;
-    subdescEn: string;
-    subdescRu: string;
-    descroptionUz: string;
-    descroptionEn: string;
-    descroptionRu: string;
-    phoneNumber: string;
-    link: string;
-    image: {
-        data: {
-            id: number;
-            attributes: {
-                url: string;
-            };
-        }
-    }
+  title: string;
+  subDesc: {
+    uz: string;
+    en: string;
+    ru: string;
+  };
+  description: {
+    uz: string;
+    en: string;
+    ru: string;
+  };
+  phoneNumber: string;
+  link: string;
+  image: {
+    data: {
+      id: number;
+      attributes: {
+        url: string;
+      };
+    };
+  };
+}
+export interface PartnerAttributesUpdate {
+  id: number;
+  title: string;
+  subDesc: {
+    uz: string;
+    en: string;
+    ru: string;
+  };
+  description: {
+    uz: string;
+    en: string;
+    ru: string;
+  };
+  phoneNumber: string;
+  link: string;
+  image: {
+    data: {
+      id: number;
+      attributes: {
+        url: string;
+      };
+    };
+  };
 }
 export interface PartnerResponse{
     data:PartnerType[]

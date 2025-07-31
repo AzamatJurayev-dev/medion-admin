@@ -1,7 +1,7 @@
-const index = () => {
+const TeamsPage = () => {
   return (
-    <div>index</div>
+    <div>TeamsPage</div>
   )
 }
 
-export default index
+export default TeamsPage

@@ -4,6 +4,11 @@ import { Menu } from "antd";
 import { DashboardIcon } from "../../icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import {
+  AliwangwangOutlined,
+  DashboardOutlined,
+  FolderOpenFilled,
+} from "@ant-design/icons";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -13,33 +18,38 @@ const Sidebar: React.FC = () => {
   const navigate = useNavigate();
   const items: MenuItem[] = [
     {
+      key: "Dashboard",
+      label: "Dashboard",
+      icon: <DashboardOutlined className="text-xl" />,
+    },
+    {
       key: "Pages",
       label: "Pages",
-      icon: <DashboardIcon />,
+      icon: <FolderOpenFilled className="text-xl" />,
       children: [
         {
           key: "/departments",
           label: t("Departments"),
         },
         {
+          key: "/services",
+          label: t("Services"),
+        },
+        {
           key: "/doctors",
           label: t("Doctors"),
+        },
+        {
+          key: "/health",
+          label: t("About health"),
         },
         {
           key: "/news",
           label: t("News"),
         },
         {
-          key: "/awards",
-          label: t("Awards"),
-        },
-        {
-          key: "/service",
-          label: t("Service"),
-        },
-        {
-          key: "/service",
-          label: t("About health"),
+          key: "/promotions",
+          label: t("Promotions"),
         },
       ],
     },
@@ -53,8 +63,8 @@ const Sidebar: React.FC = () => {
           label: "Company info",
         },
         {
-          key: "Наша деятельность",
-          label: "Наша деятельность",
+          key: "activity",
+          label: t("Our activity"),
         },
         {
           key: "Команда",
@@ -65,8 +75,8 @@ const Sidebar: React.FC = () => {
           label: "Обучение",
         },
         {
-          key: "Статьи",
-          label: "Статьи",
+          key: "/articles",
+          label: t("Articles"),
         },
         {
           key: "/partners",
@@ -77,8 +87,8 @@ const Sidebar: React.FC = () => {
           label: "Оборудование",
         },
         {
-          key: "Награды",
-          label: "Награды",
+          key: "/awards",
+          label: t("Awards"),
         },
         {
           key: "Карьера",
@@ -89,11 +99,11 @@ const Sidebar: React.FC = () => {
     {
       key: "other",
       label: "Other",
-      icon: <DashboardIcon />,
+      icon: <AliwangwangOutlined className="text-xl" />,
       children: [
         {
-          key: "/Отзывы",
-          label: t("Отзывы"),
+          key: "/reviews",
+          label: t("Reviews"),
         },
         {
           key: "/Check-up",
@@ -126,7 +136,7 @@ const Sidebar: React.FC = () => {
       ],
     },
     {
-      key: "Service",
+      key: "",
       label: "Service",
       icon: <DashboardIcon />,
       children: [
@@ -149,7 +159,7 @@ const Sidebar: React.FC = () => {
     <div className=" overflow-y-auto custom-scroll">
       <Menu
         onClick={onClick}
-        className="w-64 flex flex-col gap-2 h-auto overflow-y-scroll"
+        className="w-64 flex flex-col gap-2 h-auto"
         mode="inline"
         selectedKeys={[location.pathname]}
         items={items}

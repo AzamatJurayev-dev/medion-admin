@@ -1,7 +1,7 @@
-const index = () => {
+const UsersPage = () => {
   return (
-    <div>index</div>
+    <div>UsersPage</div>
   )
 }
 
-export default index
+export default UsersPage

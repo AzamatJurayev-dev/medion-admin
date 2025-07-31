@@ -3,6 +3,7 @@ import type { DoctorAttributes1 } from "../types";
 import { imageUrlGenerator } from "../../../utils/ImageUrlGenerate";
 import { DeleteFilled, EditFilled } from "@ant-design/icons";
 import type { NavigateFunction } from "react-router-dom";
+import { Image } from "antd";
 
 export const getDoctorColumns = ({
   onDelete,
@@ -39,7 +40,7 @@ export const getDoctorColumns = ({
       dataIndex: "image",
       render: (_, record) => (
         <div className="size-16 justify-center items-center flex rounded-full border border-gray-200 overflow-hidden">
-          <img
+          <Image
             className="object-contain h-full w-full"
             src={imageUrlGenerator(record.image.data?.attributes.url)}
             alt="cover"
@@ -56,6 +57,11 @@ export const getDoctorColumns = ({
       title: t("Work Experience"),
       dataIndex: "workExperience",
       render: (_, record) => `${record.workExperience} yil`,
+    },
+    {
+      title: "Doctor Type",
+      dataIndex: "doctorType",
+      render: (_, record) => (record.doctorType ? "Mahalliy" : "Xorijiy"),
     },
     {
       title: t("Departments"),
@@ -88,8 +94,7 @@ export const getDoctorColumns = ({
           </button>
           <button
             className="btn btn-primary"
-            onClick={(e) => {
-              e.stopPropagation();
+            onClick={() => {
               onEdit(record);
               onOpenModal();
             }}
@@ -98,9 +103,8 @@ export const getDoctorColumns = ({
           </button>
           <button
             className="btn btn-danger"
-            onClick={(e) => {
+            onClick={() => {
               onDelete(record.id);
-              e.stopPropagation();
             }}
           >
             <DeleteFilled className="text-red-500 text-xl" />

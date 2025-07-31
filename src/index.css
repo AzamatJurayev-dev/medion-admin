@@ -2,8 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-
-.custom-scroll{
-    scrollbar-width: thin;
-    scroll-behavior: smooth;
+.custom-scroll {
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+}
+input {
+  padding: 10px 12px;
+  border: 1px solid;
+}
+textarea {
+  padding: 10px 12px;
+  border: 1px solid;
 }

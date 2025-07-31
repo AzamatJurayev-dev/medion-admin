@@ -12,6 +12,20 @@ export const getArticleColums = (
   onDelete: (id: number) => void
 ): ColumnsType<ArticleUpdate> => [
   {
+    title: (
+      <span className="text-left font-sans text-sm font-normal leading-5 text-secondary-dark">
+        №
+      </span>
+    ),
+    key: "index",
+    render: (_, __, index) => (
+      <span className="font-sans text-sm font-normal leading-6 text-dark">
+        {index + 1}
+      </span>
+    ),
+    width: 48,
+  },
+  {
     title: t("Author"),
     dataIndex: "author",
     render: (_, record) => record.author || "N/A",

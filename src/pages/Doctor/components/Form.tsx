@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Select, Steps } from "antd";
+import { Select, Steps, Switch } from "antd";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { doctorsSchema, type DoctorFormType } from "../types/schema";
@@ -16,6 +16,11 @@ const DoctorForm = ({
   onClose: () => void;
   selectedItem: DoctorAttributes1 | null;
 }) => {
+  const enums = [
+    { value: "all", label: "All" },
+    { value: "children", label: "Children" },
+    { value: "adults", label: "Adults" },
+  ];
   const [current, setCurrent] = useState(0);
   const { register, handleSubmit, control, reset } = useForm({
     resolver: zodResolver(doctorsSchema),
@@ -72,8 +77,10 @@ const DoctorForm = ({
           en: selectedItem.education.en,
           ru: selectedItem.education.ru,
         },
+        doctorType: selectedItem.doctorType,
         workExperience: selectedItem.workExperience,
         departments: departments,
+        docEnum: selectedItem.docEnum,
       });
     }
   }, [selectedItem, reset]);
@@ -112,6 +119,8 @@ const DoctorForm = ({
         },
         workExperience: data.workExperience,
         departments: data.departments,
+        doctorType: data.doctorType,
+        docEnum: data.docEnum,
       })
     );
     if (selectedItem) {
@@ -367,6 +376,37 @@ const DoctorForm = ({
                       label: d.attributes.titleUz || "—",
                       value: d.id,
                     }))}
+                  />
+                )}
+              />
+              <label htmlFor=""> Doctor Type</label>
+              <Controller
+                name="doctorType"
+                control={control}
+                render={({ field }) => (
+                  <Switch
+                    value={field.value}
+                    onChange={field.onChange}
+                    className="w-fit"
+                  />
+                )}
+              />
+              <label>Type Servise</label>
+              <Controller
+                name="docEnum"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    className="w-full"
+                    placeholder="Bo‘lim(lar)ni tanlang"
+                    value={field.value}
+                    onChange={field.onChange}
+                    filterOption={(input, option) =>
+                      (option?.label as string)
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
+                    }
+                    options={enums}
                   />
                 )}
               />

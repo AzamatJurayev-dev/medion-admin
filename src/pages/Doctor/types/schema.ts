@@ -28,6 +28,8 @@ export const doctorsSchema = z.object({
   }),
   workExperience: z.coerce.number().min(0, "Ish tajribasi noto‘g‘ri"),
   departments: z.array(z.number()).min(1, "Kamida 1ta bo‘lim tanlang"),
+  doctorType: z.boolean(),
+  docEnum:z.string(),
   image: z.any().optional(),
 });
 

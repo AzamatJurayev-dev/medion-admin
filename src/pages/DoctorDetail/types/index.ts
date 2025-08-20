@@ -4,10 +4,6 @@ export interface DoctorResponse {
 
 export interface DoctorData {
   id: number;
-  attributes: DoctorAttributes;
-}
-
-export interface DoctorAttributes {
   workExperience: number;
   createdAt: string;
   updatedAt: string;
@@ -18,7 +14,27 @@ export interface DoctorAttributes {
   education: MultiLangField;
   award: MultiLangField;
   departments: DepartmentsRelation;
+  workSchedule: WorkSchedule;
+  appointmentDuration: string;
+  workPhotos: { data: WorkPhotos[] };
   image: ImageRelation;
+}
+export interface DaySchedule {
+  start_time: string;
+  end_time: string;
+}
+export interface WorkPhotos {
+  id: number;
+  url: string;
+}
+export interface WorkSchedule {
+  monday: DaySchedule;
+  tuesday: DaySchedule;
+  wednesday: DaySchedule;
+  thursday: DaySchedule;
+  friday: DaySchedule;
+  saturday: DaySchedule;
+  sunday: DaySchedule;
 }
 
 export interface MultiLangField {
@@ -34,10 +50,6 @@ export interface DepartmentsRelation {
 
 export interface Department {
   id: number;
-  attributes: DepartmentAttributes;
-}
-
-export interface DepartmentAttributes {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
@@ -52,29 +64,6 @@ export interface ImageRelation {
 
 export interface ImageData {
   id: number;
-  attributes: ImageAttributes;
-}
-
-export interface ImageAttributes {
   name: string;
-  url: string;
-}
-
-export interface ImageFormats {
-  thumbnail: ImageFormat;
-  small: ImageFormat;
-  medium: ImageFormat;
-  large: ImageFormat;
-}
-
-export interface ImageFormat {
-  name: string;
-  hash: string;
-  ext: string;
-  mime: string;
-  path: string | null;
-  width: number;
-  height: number;
-  size: number;
   url: string;
 }

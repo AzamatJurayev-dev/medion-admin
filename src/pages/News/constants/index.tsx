@@ -1,7 +1,7 @@
 import { Image } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { imageUrlGenerator } from "../../../utils/ImageUrlGenerate";
-import type { NewsAttributesUpdate } from "../types";
+import type { NewsItem } from "../types";
 const TextareaStyle = "text-sm max-w-40 overflow-ellipsis line-clamp-2";
 
 const renderTruncatedColumn = () => (text: string) =>
@@ -20,7 +20,7 @@ export const getNewsColumns = (
   //   onDelete: (id: number) => void,
   lang: "uz" | "en" | "ru",
   t: (key: string) => string
-): ColumnsType<NewsAttributesUpdate> => [
+): ColumnsType<NewsItem> => [
   {
     title: (
       <span className="text-left font-sans text-sm font-normal leading-5 text-secondary-dark">
@@ -77,12 +77,12 @@ export const getNewsColumns = (
         <div className="flex gap-2">
           {record.photos?.data?.map((photo) => (
             <div
-              key={photo.attributes.id}
+              key={photo.id}
               className="size-12 justify-center items-center flex rounded-full border border-gray-200 overflow-hidden"
             >
               <Image
                 className="object-cover size-12"
-                src={imageUrlGenerator(photo.attributes.url)}
+                src={imageUrlGenerator(photo.url)}
                 alt="cover"
               />
             </div>

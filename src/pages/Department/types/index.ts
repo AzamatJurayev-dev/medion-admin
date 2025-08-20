@@ -1,29 +1,19 @@
-export interface DepartmentAttributes {
-  titleUz: string;
-  titleEn: string;
-  titleRu: string;
-  description: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  subDesc: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
+export interface DepartmentItem {
+  id: number;
+  title: Lang;
+  description: Lang;
+  subDesc: Lang;
   icon: {
     data?: {
-      attributes: {
-        id: number;
-        url: string;
-      };
+      id: number;
+      url: string;
     };
   };
 }
-export interface DepartmentItem {
-  id: number;
-  attributes: DepartmentAttributes;
+export interface Lang {
+  uz: string;
+  en: string;
+  ru: string;
 }
 export interface DepartmentResponse {
   data: DepartmentItem[];

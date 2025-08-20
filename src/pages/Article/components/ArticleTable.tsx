@@ -3,13 +3,13 @@ import { getArticleColums } from "../constants";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteArticle, getArticles } from "../api";
-import type { ArticleUpdate } from "../types";
+import type { ArticleItem } from "../types";
 
 const ArticleTable = ({
   onEdit,
   setModalOpen,
 }: {
-  onEdit: (item: ArticleUpdate) => void; 
+  onEdit: (item: ArticleItem) => void;
   setModalOpen: () => void;
 }) => {
   const { t, i18n } = useTranslation();
@@ -19,35 +19,35 @@ const ArticleTable = ({
     queryKey: ["articles"],
     queryFn: getArticles,
   });
-  const tableData = {
-    data:
-      data?.data.map((item) => ({
-        id: item.id,
-        ...item.attributes,
-      })) ?? [],
-  };
-    const deleteMutation = useMutation({
-      mutationFn: deleteArticle,
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["articles"] });
-      },
+  const tableData = data?.data || [];
+  const deleteMutation = useMutation({
+    mutationFn: deleteArticle,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["articles"] });
+    },
+  });
+  const handleDeleteClick = (id: number) => {
+    Modal.confirm({
+      title: "Rostdan ham o'chirmoqchimisiz?",
+      content: "Bu amalni qaytarib bo'lmaydi.",
+      okText: "Ha, o'chir",
+      cancelText: "Bekor qilish",
+      onOk: () => deleteMutation.mutate(id),
     });
-    const handleDeleteClick = (id: number) => {
-      Modal.confirm({
-        title: "Rostdan ham o'chirmoqchimisiz?",
-        content: "Bu amalni qaytarib bo'lmaydi.",
-        okText: "Ha, o'chir",
-        cancelText: "Bekor qilish",
-        onOk: () => deleteMutation.mutate(id),
-      });
-    };
+  };
   return (
     <Table
-      columns={getArticleColums(lang, t, onEdit, setModalOpen,handleDeleteClick)}
+      columns={getArticleColums(
+        lang,
+        t,
+        onEdit,
+        setModalOpen,
+        handleDeleteClick
+      )}
       rowKey="id"
       size="small"
       loading={isLoading}
-      dataSource={tableData.data}
+      dataSource={tableData}
     />
   );
 };

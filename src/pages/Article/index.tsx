@@ -1,28 +1,20 @@
-import { useTranslation } from "react-i18next";
 import ArticleTable from "./components/ArticleTable";
 import ArticleModal from "./components/ArticleModal";
 import { useState } from "react";
-import type { ArticleUpdate } from "./types";
+import type { ArticleItem } from "./types";
+import HeaderComponents from "../../components/elements/HeaderComponents";
 const Article = () => {
-  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const [selectedArticle, setSelectedArticle] = useState<ArticleUpdate | null>(
+  const [selectedArticle, setSelectedArticle] = useState<ArticleItem | null>(
     null
   );
   return (
     <div>
-      <div className="flex justify-between mb-4">
-        <p className="text-3xl">{t("Articles")}</p>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-          onClick={() => {
-            setOpen(true);
-            setSelectedArticle(null);
-          }}
-        >
-          + Create new doctor
-        </button>
-      </div>
+      <HeaderComponents
+        label="Articles"
+        setOpenModal={() => setOpen(true)}
+        setSelectedItem={setSelectedArticle}
+      />
       {open && (
         <ArticleModal
           open={open}

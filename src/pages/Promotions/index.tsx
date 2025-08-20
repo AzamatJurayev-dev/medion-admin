@@ -1,27 +1,19 @@
 import { useState } from "react";
-import { AppButton } from "../../components/ui/AppButton";
-import type { PromoAttributsUpdate } from "./types";
 import PromoTable from "./components/Table";
 import PromoModal from "./components/ModalForm";
+import type { PromoItem } from "./types";
+import HeaderComponents from "../../components/elements/HeaderComponents";
 
 const PromotionsPage = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<PromoAttributsUpdate | null>(
-    null
-  );
+  const [selectedItem, setSelectedItem] = useState<PromoItem | null>(null);
   return (
     <div>
-      <div className="flex justify-between mb-4">
-        <p className="text-3xl">Promotions</p>
-        <AppButton
-          onClick={() => {
-            setOpenModal(true);
-            setSelectedItem(null);
-          }}
-        >
-          + Create new entry
-        </AppButton>
-      </div>
+      <HeaderComponents
+        label="Promotions"
+        setOpenModal={() => setOpenModal(true)}
+        setSelectedItem={setSelectedItem}
+      />
       <PromoTable
         onEdit={setSelectedItem}
         onOpenModal={() => setOpenModal(true)}

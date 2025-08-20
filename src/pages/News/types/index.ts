@@ -1,69 +1,29 @@
 import type { Dayjs } from "dayjs";
 
-export interface NewsAttributes {
-  title: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  description: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  subDesc: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  createDate: Dayjs;
-  photos: {
-    data: {
-      attributes: {
-        id: number;
-        url: string;
-      };
-    }[];
-  };
+export interface Lang {
+  uz: string;
+  en: string;
+  ru: string;
 }
-export interface NewsAttributesUpdate {
-  id: number;
-  title: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  description: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  subDesc: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  createDate: Dayjs;
-  photos: {
-    data: {
-      attributes: {
-        id: number;
-        url: string;
-      };
-    }[];
-  };
-}
+
 export interface NewsPhotos {
   data: {
-    attributes: {
-      id: number;
-      url: string;
-    };
+    id: number;
+    url: string;
   };
 }
 export interface NewsItem {
   id: number;
-  attributes: NewsAttributes;
+  title: Lang;
+  description: Lang;
+  subDesc: Lang;
+  createDate: Dayjs;
+  photos: {
+    data: {
+      id: number;
+      url: string;
+    }[];
+  };
 }
 export interface NewsResponse {
   data: NewsItem[];

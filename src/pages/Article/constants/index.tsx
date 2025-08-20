@@ -1,16 +1,16 @@
 import type { ColumnsType } from "antd/es/table";
 import { Image } from "antd";
 import { imageUrlGenerator } from "../../../utils/ImageUrlGenerate";
-import type { ArticleUpdate } from "../types";
 import dayjs from "dayjs";
+import type { ArticleItem } from "../types";
 
 export const getArticleColums = (
   lang: "uz" | "en" | "ru",
   t: (key: string) => string,
-  onEdit: (item: ArticleUpdate) => void,
+  onEdit: (item: ArticleItem) => void,
   setModalOpen: () => void,
   onDelete: (id: number) => void
-): ColumnsType<ArticleUpdate> => [
+): ColumnsType<ArticleItem> => [
   {
     title: (
       <span className="text-left font-sans text-sm font-normal leading-5 text-secondary-dark">
@@ -54,7 +54,7 @@ export const getArticleColums = (
       <div className="size-12 justify-center items-center flex rounded-full border border-gray-200 overflow-hidden">
         <Image
           className="object-cover size-12"
-          src={imageUrlGenerator(record.image?.data?.attributes?.url)}
+          src={imageUrlGenerator(record.image?.data?.url)}
           alt="cover"
         />
       </div>

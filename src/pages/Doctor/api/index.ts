@@ -4,11 +4,22 @@ import type { DoctorResponse } from "../types";
 export const getDoctors = async (): Promise<DoctorResponse> => {
   const response = await request.get<DoctorResponse>("doctors", {
     params: {
-      populate: "*",
+      populate: {
+        workSchedule: { populate: "*" },
+        name: true,
+        about: true,
+        experience: true,
+        education: true,
+        award: true,
+        departments:{populate:"*"},
+        image:{populate:"*"},
+        workPhotos:{populate:"*"},
+      },
     },
   });
   return response.data;
 };
+
 export const postDoctor = async (formData: FormData) => {
   const response = await request.post("/doctors", formData, {
     headers: {

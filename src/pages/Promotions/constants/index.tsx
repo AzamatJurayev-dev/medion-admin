@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Image } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { imageUrlGenerator } from "../../../utils/ImageUrlGenerate";
-import type { PromoAttributsUpdate } from "../types";
+import type { PromoItem } from "../types";
+import { AppButton } from "../../../components/ui/AppButton";
 
 const TextareaStyle = "text-sm max-w-40 overflow-ellipsis line-clamp-2";
 
@@ -17,12 +17,12 @@ const renderTruncatedColumn = () => (text: string) =>
   );
 
 export const getPromoColumns = (
-  onEdit: (record: PromoAttributsUpdate) => void,
+  onEdit: (record: PromoItem) => void,
   onOpenModal: () => void,
   onDelete: (id: number) => void,
   lang: "uz" | "en" | "ru",
   t: (key: string) => string
-): ColumnsType<PromoAttributsUpdate> => [
+): ColumnsType<PromoItem> => [
   {
     title: (
       <span className="text-left font-sans text-sm font-normal leading-5 text-secondary-dark">
@@ -77,7 +77,7 @@ export const getPromoColumns = (
       <div className="size-12 justify-center items-center flex rounded-full border border-gray-200 overflow-hidden">
         <Image
           className="object-cover size-12"
-          src={imageUrlGenerator(record.promoImage?.data?.attributes?.url)}
+          src={imageUrlGenerator(record.promoImage?.data?.url)}
           alt="cover"
         />
       </div>
@@ -85,25 +85,26 @@ export const getPromoColumns = (
   },
   {
     title: t("Actions"),
-    fixed: "right",
     width: 150,
-    render: (_: any, record: any) => (
+    render: (_, record) => (
       <div className="flex gap-2">
-        <button
-          className="bg-blue-500 text-white px-2 py-1 rounded"
+        <AppButton
+          variant="edit"
           onClick={() => {
             onEdit(record);
             onOpenModal();
           }}
         >
           Edit
-        </button>
-        <button
-          className="bg-red-500 text-white px-2 py-1 rounded"
-          onClick={() => onDelete(record.id)}
+        </AppButton>
+        <AppButton
+          variant="delete"
+          onClick={() => {
+            onDelete(record.id);
+          }}
         >
           Delete
-        </button>
+        </AppButton>
       </div>
     ),
   },

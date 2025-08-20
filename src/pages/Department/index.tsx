@@ -1,27 +1,19 @@
 import { useState } from "react";
-import { AppButton } from "../../components/ui/AppButton";
 import ModalForm from "./components/ModalForm";
 import DepartmentTable from "./components/Table";
-import type { UpdateDepartmentForm } from "./types/schema";
+import HeaderComponents from "../../components/elements/HeaderComponents";
+import type { DepartmentItem } from "./types";
 
 const Department = () => {
   const [open, setOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<UpdateDepartmentForm | null>(
-    null
-  );
+  const [selectedItem, setSelectedItem] = useState<DepartmentItem | null>(null);
   return (
     <div>
-      <div className="flex justify-between mb-4">
-        <p className="text-3xl">Department</p>
-        <AppButton
-          onClick={() => {
-            setOpen(true);
-            setSelectedItem(null);
-          }}
-        >
-          + Create new department
-        </AppButton>
-      </div>
+      <HeaderComponents
+        label="Departments"
+        setOpenModal={() => setOpen(true)}
+        setSelectedItem={setSelectedItem}
+      />
       <DepartmentTable
         onEdit={setSelectedItem}
         onOpenModal={() => setOpen(true)}

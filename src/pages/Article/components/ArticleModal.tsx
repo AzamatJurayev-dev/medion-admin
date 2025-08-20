@@ -1,6 +1,6 @@
 import { Modal } from "antd";
-import type { ArticleUpdate } from "../types";
 import ArticleForm from "./ArticleForm";
+import type { ArticleItem } from "../types";
 
 const ArticleModal = ({
   open,
@@ -9,7 +9,7 @@ const ArticleModal = ({
 }: {
   open: boolean;
   onClose: () => void;
-  selectedArticle: null | ArticleUpdate;
+  selectedArticle: null | ArticleItem;
 }) => {
   return (
     <Modal

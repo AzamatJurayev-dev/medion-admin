@@ -11,7 +11,8 @@ export const serviceSchema = z.object({
     en: z.string().min(1, "Description En majburiy"),
     ru: z.string().min(1, "Description Ru majburiy"),
   }),
-  price: z.number(),
+  price: z.coerce.number().min(0, "Ish tajribasi noto‘g‘ri"),
+  doctors:z.array(z.number()).min(1, "Kamida 1ta bo‘lim tanlang"),
   type: z.string(),
   department: z.number(),
 });

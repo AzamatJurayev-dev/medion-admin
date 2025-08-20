@@ -1,43 +1,38 @@
 import { useState } from "react";
-import ModalForm from "./components/Modal";
 import DoctorsTable from "./components/Table";
-import { useTranslation } from "react-i18next";
-import type { DoctorAttributes1 } from "./types";
+import HeaderComponents from "../../components/elements/HeaderComponents";
+import DrawerForm from "./components/Drawer";
+import type { DoctorItem } from "./types";
 
 const DoctorsPage = () => {
-  const [open, setOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<DoctorAttributes1 | null>(
-    null
-  );
-  const { t } = useTranslation();
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<DoctorItem | null>(null);
+
   return (
     <div>
-      <div className="flex justify-between mb-4">
-        <p className="text-3xl">{t("Doctors")}</p>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-          onClick={() => {
-            setOpen(true);
-          }}
-        >
-          + Create new doctor
-        </button>
-      </div>
+      <HeaderComponents
+        label="Doctors"
+        setOpenModal={() => setOpenDrawer(true)}
+        setSelectedItem={setSelectedItem}
+      />
 
       <div>
-        {open && (
-          <ModalForm
-            open={open}
+        {openDrawer && (
+          <DrawerForm
+            open={openDrawer}
             onClose={() => {
               setSelectedItem(null);
-              setOpen(false);
+              setOpenDrawer(false);
             }}
             selectedItem={selectedItem}
           />
         )}
         <DoctorsTable
-          onEdit={setSelectedItem}
-          onOpenModal={() => setOpen(true)}
+          onEdit={(item) => {
+            setSelectedItem(item);
+            setOpenDrawer(true);
+          }}
+          onOpenModal={() => setOpenDrawer(true)}
         />
       </div>
     </div>

@@ -35,7 +35,7 @@ const formats = [
 ];
 const ReactQuillEditor = ({ value, onChange, label, placeholder }: Props) => {
   return (
-    <div className="mb-4 relative">
+    <div className="pb-8 relative">
       {label && <label className="block mb-1 font-medium">{label}</label>}
       <ReactQuill
         value={value}

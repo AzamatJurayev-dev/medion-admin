@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Modal } from "antd";
+import { Button, Modal } from "antd";
 import { postBanner, updateBanner } from "../api";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
@@ -163,9 +163,12 @@ const BannerModal = ({
               </div>
             </div>
           </div>
-          <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+          <Button
+            htmlType="submit"
+            className="bg-blue-500 text-white p-2 rounded"
+          >
             {selectedItem ? "Update" : "Create"}
-          </button>
+          </Button>
         </div>
       </form>
     </Modal>

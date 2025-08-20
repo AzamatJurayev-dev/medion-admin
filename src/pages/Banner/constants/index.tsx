@@ -2,8 +2,8 @@
 import { Image } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { imageUrlGenerator } from "../../../utils/ImageUrlGenerate";
-import type { BannerAttributs } from "../types";
 import type { UpdateBannerForm } from "../types/schema";
+import type { BannerItem } from "../types";
 
 const TextareaStyle = "text-sm max-w-40 overflow-ellipsis line-clamp-2";
 
@@ -23,7 +23,7 @@ export const getBannerColumns = (
   onDelete: (id: number) => void,
   lang: "uz" | "en" | "ru",
   t: (key: string) => string
-): ColumnsType<BannerAttributs> => [
+): ColumnsType<BannerItem> => [
   {
     title: (
       <span className="text-left font-sans text-sm font-normal leading-5 text-secondary-dark">
@@ -60,7 +60,7 @@ export const getBannerColumns = (
       <div className="size-12 justify-center items-center flex rounded-full border border-gray-200 overflow-hidden">
         <Image
           className="object-cover size-12"
-          src={imageUrlGenerator(record.coverImage?.data?.attributes?.url)}
+          src={imageUrlGenerator(record.coverImage?.data?.url)}
           alt="cover"
         />
       </div>

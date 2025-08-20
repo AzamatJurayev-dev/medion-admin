@@ -11,11 +11,7 @@ const NewsTable = () => {
     queryKey: ["news"],
     queryFn: getNews,
   });
-  const tableData =
-    data?.data.map((item) => ({
-      id: item.id,
-      ...item.attributes,
-    })) ?? [];
+  const tableData = data?.data || [];
 
   return (
     <div>

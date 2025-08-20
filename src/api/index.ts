@@ -9,3 +9,12 @@ export const getDepartments = async (): Promise<DepartmentResponse> => {
   });
   return response.data;
 };
+
+export const postPhotos = async (formData: FormData) => {
+  const response = await request.post(`photos`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+};

@@ -1,6 +1,6 @@
 import { Modal } from "antd";
-import type { PromoAttributsUpdate } from "../types";
 import PromoForm from "./PromoForm";
+import type { PromoItem } from "../types";
 
 const PromoModal = ({
   open,
@@ -9,7 +9,7 @@ const PromoModal = ({
 }: {
   open: boolean;
   onClose: () => void;
-  selectedItem: PromoAttributsUpdate | null;
+  selectedItem: PromoItem | null;
 }) => {
   return (
     <Modal

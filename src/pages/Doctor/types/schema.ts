@@ -1,4 +1,18 @@
 import { z } from "zod";
+const DayScheduleSchema = z.object({
+  start_time: z.string(),
+  end_time: z.string(),
+});
+
+export const WorkScheduleSchema = z.object({
+  monday: DayScheduleSchema.optional(),
+  tuesday: DayScheduleSchema.optional(),
+  wednesday: DayScheduleSchema.optional(),
+  thursday: DayScheduleSchema.optional(),
+  friday: DayScheduleSchema.optional(),
+  saturday: DayScheduleSchema.optional(),
+  sunday: DayScheduleSchema.optional(),
+});
 
 export const doctorsSchema = z.object({
   name: z.object({
@@ -29,9 +43,10 @@ export const doctorsSchema = z.object({
   workExperience: z.coerce.number().min(0, "Ish tajribasi noto‘g‘ri"),
   departments: z.array(z.number()).min(1, "Kamida 1ta bo‘lim tanlang"),
   doctorType: z.boolean(),
-  docEnum:z.string(),
+  docEnum: z.string(),
   image: z.any().optional(),
+  appointmentDuration: z.number(),
+  workSchedule: WorkScheduleSchema,
 });
 
 export type DoctorFormType = z.infer<typeof doctorsSchema>;
-export type UpdateDoctorForm = { id: number } & DoctorFormType;

@@ -1,13 +1,10 @@
 import { Dropdown, Space, type MenuProps } from "antd";
-import { DownOutlined, GlobalOutlined } from "@ant-design/icons";
-import logo from "/logo.svg";
-import { DashboardIcon } from "../../icons";
+import { GlobalOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { removeToken } from "../../utils/cookie";
-import { useNavigate } from "react-router-dom";
+import ThemeToggle from "../ui/ThemeSwitch";
 const Haeder = () => {
   const { i18n } = useTranslation();
-  const navigate = useNavigate();
+
   const items: MenuProps["items"] = [
     {
       label: "Uz",
@@ -26,28 +23,9 @@ const Haeder = () => {
     i18n.changeLanguage(e.key);
   };
   return (
-    <div className="flex justify-between items-center px-5 py-3 border-b border-gray-200 ">
-      <div className="flex items-center gap-8">
-        <img src={logo} alt="" />
-      </div>
+    <div className="flex justify-end items-center h-16 px-5 py-3  overflow-hidden sticky top-0 before:absolute before:inset-0 before:backdrop-blur-md max-lg:before:bg-white/90 dark:max-lg:before:bg-gray-800/90 before:-z-10 z-30 lg:border-b border-gray-200 dark:border-gray-700/60">
       <div className="flex items-center gap-4 mr-4">
-        <button
-          onClick={() => removeToken()}
-          className="border py-2 px-4 rounded-lg"
-        >
-          Delete Token
-        </button>
-        <button
-          onClick={() => {
-            navigate("/login");
-            removeToken();
-          }}
-          className="border py-2 px-4 rounded-lg"
-        >
-          Log Out
-        </button>
-        <DashboardIcon />
-        <div className="size-10 rounded-full bg-gray-200 flex items-center justify-center"></div>
+        <ThemeToggle />
         <Dropdown
           menu={{ items, onClick: handleMenuClick }}
           trigger={["click"]}
@@ -55,9 +33,9 @@ const Haeder = () => {
           <Space onClick={(e) => e.preventDefault()}>
             <GlobalOutlined />
             {i18n.language.toUpperCase()}
-            <DownOutlined />
           </Space>
         </Dropdown>
+        <div className="size-10 rounded-full bg-gray-200 flex items-center justify-center"></div>
       </div>
     </div>
   );

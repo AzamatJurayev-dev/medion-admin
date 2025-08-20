@@ -5,10 +5,10 @@ import { Controller, useForm } from "react-hook-form";
 import { postPromo, updatePromo } from "../api";
 import { useEffect, useState } from "react";
 import ReactQuillEditor from "../../../components/ui/AppRichTextarea";
-import type { PromoAttributsUpdate } from "../types";
 import { useTranslation } from "react-i18next";
 import { DatePicker, Steps } from "antd";
 import dayjs from "dayjs";
+import type { PromoItem } from "../types";
 
 const steps = [
   { title: "1" },
@@ -21,7 +21,7 @@ const PromoForm = ({
   selectedItem,
   onClose,
 }: {
-  selectedItem: PromoAttributsUpdate | null;
+  selectedItem: PromoItem | null;
   onClose: () => void;
 }) => {
   const [current, setCurrent] = useState(0);

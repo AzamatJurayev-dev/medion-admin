@@ -3,11 +3,12 @@ import { Modal, Select } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { postService, updateService } from "../api";
-import type { ServiceAttributsUpdate } from "../types";
+import { getDoctors, postService, updateService } from "../api";
 import { serviceSchema, type ServiceFormType } from "../types/schema";
 import { getDepartments } from "../../../api";
 import { useTranslation } from "react-i18next";
+import { enums } from "../../../constants";
+import type { ServiceItem } from "../types";
 
 const ServiceModal = ({
   open,
@@ -16,7 +17,7 @@ const ServiceModal = ({
 }: {
   open: boolean;
   onClose: () => void;
-  selectedItem: ServiceAttributsUpdate | null;
+  selectedItem: ServiceItem | null;
 }) => {
   const { register, handleSubmit, reset, control } = useForm({
     resolver: zodResolver(serviceSchema),
@@ -37,10 +38,10 @@ const ServiceModal = ({
     },
   });
   const updateMutation = useMutation({
-    mutationFn: ({ id, formData }: { id: number; formData: FormData }) =>
-      updateService(id, formData),
+    mutationFn: ({ id, data }: { id: number; data: ServiceFormType }) =>
+      updateService(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["banners"] });
+      queryClient.invalidateQueries({ queryKey: ["services"] });
       reset();
       onClose();
     },
@@ -49,34 +50,38 @@ const ServiceModal = ({
     queryKey: ["departments"],
     queryFn: getDepartments,
   });
+  const { data: doctors } = useQuery({
+    queryKey: ["doctors"],
+    queryFn: getDoctors,
+  });
+  console.log("doctors", doctors);
   const onSubmit = (data: ServiceFormType) => {
-    const formData = new FormData();
-    formData.append(
-      "data",
-      JSON.stringify({
-        title: {
-          uz: data.title.uz,
-          en: data.title.en,
-          ru: data.title.ru,
-        },
-        description: {
-          uz: data.description.uz,
-          en: data.description.en,
-          ru: data.description.ru,
-        },
-        price: data.price,
-        type: data.type,
-      })
-    );
+    const payload = {
+      title: {
+        uz: data.title.uz,
+        en: data.title.en,
+        ru: data.title.ru,
+      },
+      description: {
+        uz: data.description.uz,
+        en: data.description.en,
+        ru: data.description.ru,
+      },
+      price: Number(data.price),
+      type: data.type,
+      department: data.department,
+      doctors: data.doctors,
+    };
     if (selectedItem) {
-      updateMutation.mutate({ id: selectedItem.id, formData });
+      updateMutation.mutate({ id: selectedItem.id, data: payload });
     } else {
-      createService.mutate(formData);
+      createService.mutate(payload);
     }
   };
   useEffect(() => {
     if (selectedItem) {
-      const departments = selectedItem.department?.data.id;
+      const departments = selectedItem.department?.data?.id ?? null;
+      const doctorList = selectedItem.doctors?.data.map((doc) => doc.id);
       reset({
         title: {
           uz: selectedItem.title.uz,
@@ -89,7 +94,9 @@ const ServiceModal = ({
           ru: selectedItem.description.ru,
         },
         price: selectedItem.price,
+        type: selectedItem.type,
         department: departments,
+        doctors: doctorList,
       });
     } else {
       reset();
@@ -186,12 +193,52 @@ const ServiceModal = ({
                     options={departments?.data.map((d) => ({
                       label:
                         lang === "uz"
-                          ? d.attributes.titleUz
+                          ? d.titleUz
                           : lang === "ru"
-                          ? d.attributes.titleRu
-                          : d.attributes.titleEn || "—",
+                          ? d.titleRu
+                          : d.titleEn || "—",
                       value: d.id,
                     }))}
+                  />
+                )}
+              />
+              <Controller
+                name="doctors"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    className="w-full"
+                    mode="multiple"
+                    placeholder="Doctorlarni tanlang"
+                    value={field.value}
+                    onChange={field.onChange}
+                    filterOption={(input, option) =>
+                      (option?.label as string)
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
+                    }
+                    options={doctors?.data.map((d) => ({
+                      label: d?.name?.[lang],
+                      value: d.id,
+                    }))}
+                  />
+                )}
+              />
+              <Controller
+                name="type"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    className="w-full"
+                    placeholder="Secvice turi"
+                    value={field.value}
+                    onChange={field.onChange}
+                    filterOption={(input, option) =>
+                      (option?.label as string)
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
+                    }
+                    options={enums}
                   />
                 )}
               />

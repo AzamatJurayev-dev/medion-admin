@@ -1,9 +1,9 @@
 import type { ColumnsType } from "antd/es/table";
-import type { DoctorAttributes1 } from "../types";
 import { imageUrlGenerator } from "../../../utils/ImageUrlGenerate";
-import { DeleteFilled, EditFilled } from "@ant-design/icons";
 import type { NavigateFunction } from "react-router-dom";
 import { Image } from "antd";
+import { AppButton } from "../../../components/ui/AppButton";
+import type { DoctorItem } from "../types";
 
 export const getDoctorColumns = ({
   onDelete,
@@ -16,10 +16,10 @@ export const getDoctorColumns = ({
   onDelete: (id: number) => void;
   lang: "uz" | "en" | "ru";
   t: (key: string) => string;
-  onEdit: (record: DoctorAttributes1) => void;
+  onEdit: (record: DoctorItem) => void;
   onOpenModal: () => void;
   navigate: NavigateFunction;
-}): ColumnsType<DoctorAttributes1> => {
+}): ColumnsType<DoctorItem> => {
   return [
     {
       title: (
@@ -42,7 +42,7 @@ export const getDoctorColumns = ({
         <div className="size-16 justify-center items-center flex rounded-full border border-gray-200 overflow-hidden">
           <Image
             className="object-contain h-full w-full"
-            src={imageUrlGenerator(record.image.data?.attributes.url)}
+            src={imageUrlGenerator(record.image.data?.url)}
             alt="cover"
           />
         </div>
@@ -51,7 +51,11 @@ export const getDoctorColumns = ({
     {
       title: t("Full Name"),
       dataIndex: "name",
-      render: (_, record) => record.name?.[lang] || "—",
+      render: (_, record) => (
+        <p className="w-40 overflow-ellipsis line-clamp-1">
+          {record.name?.[lang] || "—"}
+        </p>
+      ),
     },
     {
       title: t("Work Experience"),
@@ -69,11 +73,7 @@ export const getDoctorColumns = ({
       render: (_, record) => {
         const titles =
           record.departments?.data?.map((dep) => {
-            return lang === "uz"
-              ? dep.attributes?.titleUz
-              : lang === "en"
-              ? dep.attributes?.titleEn
-              : dep.attributes?.titleRu;
+            return dep.title?.[lang];
           }) || [];
 
         return titles.join(", ");
@@ -82,35 +82,42 @@ export const getDoctorColumns = ({
     {
       title: "Actions",
       dataIndex: "actions",
-      fixed: "right",
       width: 150,
       render: (_, record) => (
-        <div className="flex gap-4">
-          <button
-            className="text-white rounded-lg bg-blue-500 px-4 py-2 cursor-pointer"
+        <div className="flex gap-2 justify-end">
+          <AppButton
+            variant="edit"
             onClick={() => navigate(`/doctors/${record.id}`)}
           >
             Details
-          </button>
-          <button
-            className="btn btn-primary"
+          </AppButton>
+          <AppButton
+            variant="edit"
             onClick={() => {
               onEdit(record);
               onOpenModal();
             }}
           >
-            <EditFilled className="text-blue-500 text-xl" />
-          </button>
-          <button
-            className="btn btn-danger"
+            Edit
+          </AppButton>
+          <AppButton
+            variant="delete"
             onClick={() => {
               onDelete(record.id);
             }}
           >
-            <DeleteFilled className="text-red-500 text-xl" />
-          </button>
+            Delete
+          </AppButton>
         </div>
       ),
     },
   ];
 };
+
+export const steps = [
+  { title: "Basic" },
+  { title: "Experience" },
+  { title: "Award" },
+  { title: "Education" },
+  { title: "Other" },
+];

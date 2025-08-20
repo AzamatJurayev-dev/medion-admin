@@ -1,7 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "swiper/css";
+/* Tailwind ranglari sekin o‘zgarishi uchun */
+html,
+body {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
 
+
+/* Ant Design komponentlari ham moslashadi */
+.ant-layout,
+.ant-menu,
+.ant-card,
+.ant-btn,
+.ant-typography {
+  transition: background-color 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease;
+}
 .custom-scroll {
   scrollbar-width: thin;
   scroll-behavior: smooth;
@@ -13,4 +29,18 @@ input {
 textarea {
   padding: 10px 12px;
   border: 1px solid;
+}
+.ant-table-wrapper {
+  border-radius: 12px;
+  overflow: hidden;
+}
+.ant-table-cell{
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+.ant-table-pagination:hover{
+  text-decoration: none;
+}
+.ant-steps-item-tail {
+  display: none !important;  /* bu chiziqni yo'q qiladi */
 }

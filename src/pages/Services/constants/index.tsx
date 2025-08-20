@@ -1,5 +1,7 @@
 import type { ColumnsType } from "antd/es/table";
-import type { ServiceAttributsUpdate } from "../types";
+import { AppButton } from "../../../components/ui/AppButton";
+import { Flex, Tooltip } from "antd";
+import type { ServiceItem } from "../types";
 
 const TextareaStyle = "text-sm max-w-40 overflow-ellipsis line-clamp-2";
 
@@ -14,12 +16,12 @@ const renderTruncatedColumn = () => (text: string) =>
   );
 
 export const getBannerColumns = (
-  onEdit: (record: ServiceAttributsUpdate) => void,
+  onEdit: (record: ServiceItem) => void,
   onOpenModal: () => void,
   onDelete: (id: number) => void,
   lang: "uz" | "en" | "ru",
   t: (key: string) => string
-): ColumnsType<ServiceAttributsUpdate> => [
+): ColumnsType<ServiceItem> => [
   {
     title: (
       <span className="text-left font-sans text-sm font-normal leading-5 text-secondary-dark">
@@ -56,38 +58,70 @@ export const getBannerColumns = (
   {
     title: "Type",
     dataIndex: "type",
+    render: (_, record) => record?.type || "-",
   },
   {
     title: "Department",
     dataIndex: "department",
-    render: (_, record) =>
-      lang === "uz"
-        ? record.department.data.attributes.titleEn
-        : lang === "ru"
-        ? record.department.data.attributes.titleRu
-        : record.department.data.attributes.titleEn,
+    render: (_, record) => {
+      const title = record.department?.data?.title?.[lang];
+      return title || "-";
+      
+    },
+  },
+  {
+    title: "Doctors",
+    dataIndex: "doctors",
+    render: (_, record) => {
+      const doctors = record.doctors.data;
+      if (!doctors || doctors.length === 0) return "-";
+
+      const firstDoctor = doctors[0].name?.en;
+      const remaining = doctors.slice(1);
+
+      return remaining.length > 0 ? (
+        <Tooltip
+          title={
+            <Flex vertical>
+              {remaining.map((doc) => (
+                <span key={doc.id}>{doc.name?.[lang]}</span>
+              ))}
+            </Flex>
+          }
+        >
+          <span>
+            {firstDoctor}{" "}
+            <span style={{ color: "#888" }}>+{remaining.length}</span>
+          </span>
+        </Tooltip>
+      ) : (
+        <span>{firstDoctor}</span>
+      );
+    },
   },
   {
     title: t("Actions"),
-    fixed: "right",
+    // fixed: "right",
     width: 150,
     render: (_, record) => (
       <div className="flex gap-2">
-        <button
-          className="bg-blue-500 text-white px-2 py-1 rounded"
+        <AppButton
+          variant="edit"
           onClick={() => {
             onEdit(record);
             onOpenModal();
           }}
         >
           Edit
-        </button>
-        <button
-          className="bg-red-500 text-white px-2 py-1 rounded"
-          onClick={() => onDelete(record.id)}
+        </AppButton>
+        <AppButton
+          variant="delete"
+          onClick={() => {
+            onDelete(record.id);
+          }}
         >
           Delete
-        </button>
+        </AppButton>
       </div>
     ),
   },

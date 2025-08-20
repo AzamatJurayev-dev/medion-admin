@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getBanners, deleteBanner } from "../api";
 import type { UpdateBannerForm } from "../types/schema";
 import { getBannerColumns } from "../constants";
-import { useTranslation } from "react-i18next";
+import useLang from "../../../utils/useLang";
 
 const BannerTable = ({
   onEdit,
@@ -12,8 +12,7 @@ const BannerTable = ({
   onEdit: (item: UpdateBannerForm) => void;
   onOpenModal: () => void;
 }) => {
-  const { t, i18n } = useTranslation();
-  const lang = i18n.language as "uz" | "en" | "ru";
+  const { lang, t } = useLang();
   const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({
     queryKey: ["banners"],
@@ -37,11 +36,7 @@ const BannerTable = ({
     });
   };
 
-  const tableData =
-    data?.data.map((item) => ({
-      id: item.id,
-      ...item.attributes,
-    })) ?? [];
+  const tableData = data?.data || [];
 
   return (
     <Table

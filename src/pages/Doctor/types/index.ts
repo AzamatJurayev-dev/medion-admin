@@ -1,55 +1,50 @@
+import type { DepartmentResponse } from "../../Department/types";
+
+export interface Lang {
+  uz: string;
+  en: string;
+  ru: string;
+}
 export interface DoctorItem {
   id: number;
-  attributes: DoctorAttributes;
-}
-export interface DoctorAttributes {
-  name: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  about: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  experience: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  education: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  award: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
+  name: Lang;
+  about: Lang;
+  experience: Lang;
+  education: Lang;
+  award: Lang;
   doctorType: boolean;
   docEnum: string;
   workExperience: number;
-  departments: {
-    data?: {
-      id: number;
-      attributes: {
-        titleUz: string;
-        titleEn: string;
-        titleRu: string;
-      };
-    }[];
-  };
+  departments: DepartmentResponse;
+  appointmentDuration: number;
+  workSchedule: WorkSchedule;
+  workPhotos: { data: WorkPhotos[] };
   image: {
     data?: {
-      attributes: {
-        id: number;
-        url: string;
-      };
+      id: number;
+      url: string;
     };
   };
 }
+export interface DaySchedule {
+  start_time: string ;
+  end_time: string;
+}
+export interface WorkPhotos {
+  id: number;
+  url: string;
+}
+export interface WorkSchedule {
+  monday?: DaySchedule;
+  tuesday?: DaySchedule;
+  wednesday?: DaySchedule;
+  thursday?: DaySchedule;
+  friday?: DaySchedule;
+  saturday?: DaySchedule;
+  sunday?: DaySchedule;
+}
+
+
 export interface DoctorResponse {
   data: DoctorItem[];
   meta: {
@@ -58,55 +53,6 @@ export interface DoctorResponse {
       pageSize: number;
       pageCount: number;
       total: number;
-    };
-  };
-}
-export interface DoctorAttributes1 {
-  id: number;
-  name: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  about: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  experience: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  education: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  award: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  doctorType: boolean;
-  docEnum: string;
-  workExperience: number;
-  departments: {
-    data?: {
-      id: number;
-      attributes: {
-        titleUz: string;
-        titleEn: string;
-        titleRu: string;
-      };
-    }[];
-  };
-  image: {
-    data?: {
-      attributes: {
-        id: number;
-        url: string;
-      };
     };
   };
 }

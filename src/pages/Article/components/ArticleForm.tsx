@@ -1,5 +1,4 @@
 import { DatePicker, Steps } from "antd";
-import type { ArticleUpdate } from "../types";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
@@ -10,12 +9,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createArticle, updateArticle } from "../api";
 import dayjs from "dayjs";
 import { UploadOutlined } from "@ant-design/icons";
+import type { ArticleItem } from "../types";
 
 const ArticleForm = ({
   selectedArticle,
   onClose,
 }: {
-  selectedArticle: ArticleUpdate | null;
+  selectedArticle: ArticleItem | null;
   onClose: () => void;
 }) => {
   const [current, setCurrent] = useState(0);

@@ -1,19 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { loginUser } from "./api";
-import { setToken } from "../../utils/cookie";
+import { useNavigate } from "react-router-dom";
+import { setToken } from "../utils/cookie";
+import { registerUser } from "./api";
 
-const LoginPage = () => {
-  const [identifier, setIdentifier] = useState("");
+const RegisterPage = () => {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
 
   const mutation = useMutation({
-    mutationFn: loginUser,
+    mutationFn: registerUser,
     onSuccess: (data: any) => {
       setToken(data.jwt);
       navigate("/");
@@ -21,7 +22,11 @@ const LoginPage = () => {
   });
 
   const onSubmit = (data: any) => {
-    mutation.mutate({ identifier: data.username, password: data.password });
+    mutation.mutate({
+      username: data.username,
+      password: data.password,
+      email: data.email,
+    });
   };
 
   return (
@@ -29,13 +34,20 @@ const LoginPage = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex w-2/3 flex-col gap-4 items-center justify-center "
     >
-      <h1 className="text-2xl">Login Page</h1>
+      <h1 className="text-2xl">Register Page</h1>
       <input
         {...register("username", { required: "Username is required" })}
-        value={identifier}
+        value={username}
         placeholder="Username"
         className="border px-4 py-2 rounded-lg w-full"
-        onChange={(e) => setIdentifier(e.target.value)}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <input
+        {...register("email", { required: "Email is required" })}
+        value={email}
+        placeholder="Email"
+        className="border px-4 py-2 rounded-lg w-full"
+        onChange={(e) => setEmail(e.target.value)}
       />
       <input
         type="password"
@@ -50,12 +62,11 @@ const LoginPage = () => {
         type="submit"
         className="bg-blue-500 px-4 py-2 rounded-lg text-white text-lg"
       >
-        Login
+        Register
       </button>
-      <button onClick={() => navigate('/forgot-password')}>Forgot password</button>
-      <button onClick={() => navigate("/register")}>Create accaunt</button>
+      <button onClick={() => navigate("/login")}>I have already account</button>
     </form>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

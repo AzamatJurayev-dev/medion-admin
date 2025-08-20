@@ -1,16 +1,12 @@
-import {
-  departmentSchema,
-  type DepartmentFormType,
-  type UpdateDepartmentForm,
-} from "../types/schema";
+import { departmentSchema, type DepartmentFormType } from "../types/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postDepartments, updateDepartments } from "../api";
 import { Modal, Steps } from "antd";
 import ReactQuillEditor from "../../../components/ui/AppRichTextarea";
+import type { DepartmentItem } from "../types";
 
 const ModalForm = ({
   open,
@@ -19,7 +15,7 @@ const ModalForm = ({
 }: {
   open: boolean;
   onClose: () => void;
-  selectedItem: UpdateDepartmentForm | null;
+  selectedItem: DepartmentItem | null;
 }) => {
   const [current, setCurrent] = useState(0);
   const { handleSubmit, register, control, reset } = useForm({
@@ -51,9 +47,11 @@ const ModalForm = ({
   useEffect(() => {
     if (selectedItem) {
       reset({
-        titleUz: selectedItem.titleUz,
-        titleEn: selectedItem.titleEn,
-        titleRu: selectedItem.titleRu,
+        title: {
+          uz: selectedItem.title.uz,
+          en: selectedItem.title.en,
+          ru: selectedItem.title.ru,
+        },
         subDesc: {
           uz: selectedItem.subDesc.uz,
           en: selectedItem.subDesc.en,
@@ -76,24 +74,7 @@ const ModalForm = ({
     if (data.icon && data.icon.length > 0) {
       formData.append("files.icon", data.icon[0]);
     }
-    formData.append(
-      "data",
-      JSON.stringify({
-        titleUz: data.titleUz,
-        titleEn: data.titleEn,
-        titleRu: data.titleRu,
-        description: {
-          uz: data.description.uz,
-          en: data.description.en,
-          ru: data.description.ru,
-        },
-        subDesc: {
-          uz: data.subDesc.uz,
-          en: data.subDesc.en,
-          ru: data.subDesc.ru,
-        },
-      })
-    );
+    formData.append("data", JSON.stringify({ ...data }));
     if (selectedItem) {
       updateDepartment.mutate({
         id: selectedItem.id,
@@ -128,7 +109,7 @@ const ModalForm = ({
               <div className={style}>
                 <label htmlFor="">Title UZ</label>
                 <input
-                  {...register("titleUz")}
+                  {...register("title.uz")}
                   placeholder="Title Uz"
                   className="border px-4 py-2 rounded-lg w-full"
                 />
@@ -136,7 +117,7 @@ const ModalForm = ({
               <div className={style}>
                 <label htmlFor="">Title En</label>
                 <input
-                  {...register("titleEn")}
+                  {...register("title.en")}
                   placeholder="Title En"
                   className="border px-4 py-2 rounded-lg w-full"
                 />
@@ -144,7 +125,7 @@ const ModalForm = ({
               <div className={style}>
                 <label htmlFor="">Title Ru</label>
                 <input
-                  {...register("titleRu")}
+                  {...register("title.ru")}
                   placeholder="Title Ru"
                   className="border px-4 py-2 rounded-lg w-full"
                 />

@@ -1,51 +1,21 @@
 import type { Dayjs } from "dayjs";
 
-export interface ArticleAttributes {
-  author: string;
-  title: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  subDesc: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  image?: {
-    data?: {
-      attributes?: {
-        url: string;
-      };
-    };
-  };
-  createDate: Dayjs;
-}
-export interface ArticleUpdate {
-  id: number;
-  author: string;
-  title: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  subDesc: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  image?: {
-    data?: {
-      attributes?: {
-        url: string;
-      };
-    };
-  };
-  createDate: Dayjs;
+export interface Lang {
+  uz: string;
+  en: string;
+  ru: string;
 }
 export interface ArticleItem {
   id: number;
-  attributes: ArticleAttributes;
+  author: string;
+  title: Lang;
+  subDesc: Lang;
+  image?: {
+    data?: {
+      url: string;
+    };
+  };
+  createDate: Dayjs;
 }
 export interface ArticleListResponse {
   data: ArticleItem[];
